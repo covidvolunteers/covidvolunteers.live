@@ -27,19 +27,19 @@
       #search {
         padding: 22px 16px 22px 16px;
       }
-      .quote {
+      .supplier {
         margin-bottom: 16px;
         padding: 10px 10px 24px 10px;
         border-bottom: 1px dotted #CECECE;
       }
-      .quote-text {
+      .supplier-text {
         font-size: 1.2em;
       }
-      .author {
+      .description {
         font-size: 0.8em;
         color: #676767;
       }
-      .source {
+      .contact {
         font-weight: bold;
         color: #676767;
       }
@@ -90,7 +90,7 @@
       <div id="header" class="row">
         <input
           id="search"
-          v-on:input="filterQuotes"
+          v-on:input="filterSuppliers"
           type="search"
           placeholder="Search Resource(s) with Name"
           class="form-control bg-none border-1">
@@ -110,17 +110,17 @@
 
       <div class="row">
         
-        <div id="quotes" class="col-lg-12">
-          <div v-for="quote in quotes" class="quote">
-            <div class="quote-text">{{ quote.quote }}</div>
+        <div id="suppliers" class="col-lg-12">
+          <div v-for="supplier in suppliers" class="supplier">
+            <div class="supplier-text">{{ supplier.name }}</div>
             <div>
-              <span class="author">{{ quote.author}}</span>
+              <span class="description">{{ supplier.description}}</span>
             </div>
             <div>
-              <span class="source" v-if="quote.source != ''">ContactNo: {{ quote.source }}</span>
+              <span class="contact" v-if="supplier.contact != ''">Contact No: <a :href="'tel:' + supplier.contact"> {{ supplier.contact }} </a></span>
             </div>
             <div class="tag-container">
-              <span v-for="tag in quote.tags" class="tag">
+              <span v-for="tag in supplier.tags" class="tag">
                 {{ tag }}
               </span>
             </div>
@@ -135,8 +135,8 @@
       // URL to the JSON data of the Google Spreadsheet
       var gsheet_url =  "https://spreadsheets.google.com/feeds/list/1ageTMu46SX5Zkq417sZG1izEZdFMUIlUY-TN32rGNA8/1/public/values?alt=json";
       // Global variables to hold the data from the spreadsheet
-      var quoteList = [];
-      var authorList = [];
+      var supplierList = [];
+      var supplierDetailsList = [];
       var tagList = [];
       
       // Load data when the page is ready
@@ -160,12 +160,12 @@
       var search = new Vue({
         el: '#search',
         methods: {
-          filterQuotes: function(event) {
+          filterSuppliers: function(event) {
             var query = event.target.value;
 
             // Reset filter if query is empty string
             if (query.length == 0) {
-              quotes.quotes = quoteList;
+              suppliers.suppliers = supplierList;
             }
 
             // Do nothing if query is too short
@@ -175,45 +175,45 @@
             query = query.toLowerCase();
             console.log(query);
 
-            // Search in quote, author and source
-            quoteList.forEach(function(value) {
-              var quote = value.quote.toLowerCase();
-              var author = value.author.toLowerCase();
-              var source = value.source.toLowerCase();
+            // Search in supplier name, description and contact
+            supplierList.forEach(function(value) {
+              var suppliername = value.name.toLowerCase();
+              var description = value.description.toLowerCase();
+              var contact = value.contact.toLowerCase();
               if (
-                (quote.search(query) >= 0) ||
-                (author.search(query) >= 0) ||
-                (source.search(query) >= 0)) {
+                (suppliername.search(query) >= 0) ||
+                (description.search(query) >= 0) ||
+                (contact.search(query) >= 0)) {
                 filtered.push(value);
               }
             });
-            quotes.quotes = filtered;
+            suppliers.suppliers = filtered;
           }
         }
       });
 
-      var quotes = new Vue({
-        el: '#quotes',
+      var suppliers = new Vue({
+        el: '#suppliers',
         data: {
-          quotes: quoteList
+          suppliers: supplierList
         }
       });
 
-      var authors = new Vue({
-        el: '#authors',
+      var supplierdetails = new Vue({
+        el: '#supplierdetails',
         data: {
-          authors: authorList
+          supplierdetails: supplierDetailsList
         },
         methods: {
-          selectAuthor: function(event) {
+          selectSupplier: function(event) {
             var selected = [];
-            var author = event.target.getAttribute('data');
-            quoteList.forEach(function(value) {
-              if (value.author == author) {
+            var supplier = event.target.getAttribute('data');
+            supplierList.forEach(function(value) {
+              if (value.description == description) {
                 selected.push(value);
               }
             });
-            quotes.quotes = selected;
+            suppliers.suppliers = selected;
           }
         }
       });
@@ -222,7 +222,7 @@
         el: '#reset-filter',
         methods: {
           reset: function(event) {
-            quotes.quotes = quoteList;
+            suppliers.suppliers = supplierList;
           }
         }
       });
@@ -236,44 +236,47 @@
           selectTag: function(event) {
             var selected = [];
             var tag = event.target.getAttribute('data');
-            quoteList.forEach(function(value) {
+            supplierList.forEach(function(value) {
               if (value.tags.includes(tag)) {
                 selected.push(value);
               }
             });
-            quotes.quotes = selected;
+            suppliers.suppliers = selected;
           }
         }
       });
 
       function parseData(entries) {
         
-        var authorSet = new Set();
+        var supplierDetailSet = new Set();
         var tagSet = new Set();
 
         entries.forEach(function(value) {
           var entry = {
-            "quote": value.gsx$suppliername.$t,
-            "author": value.gsx$shortdescription.$t,
-            "source": value.gsx$mobilenumber.$t,
-            "tags": value.gsx$resource.$t.split(",")
+            "name": value.gsx$suppliername.$t,
+            "description": value.gsx$shortdescription.$t,
+            "contact": value.gsx$mobilenumber.$t,
+            "tags": value.gsx$resource.$t.split(", ")
           };
-          authorSet.add(entry.author);
+          supplierDetailSet.add(entry.description);
 
           entry.tags.forEach(function(t) {
+		    console.log(t)
             tagSet.add(t);
           });
 
-          quoteList.push(entry);
+          supplierList.push(entry);
+		  
         });
-        authorList = Array.from(authorSet);
-        authorList.sort();
+		
+        supplierDetailsList = Array.from(supplierDetailSet);
+        supplierDetailsList.sort();
 
         tagList = Array.from(tagSet);
         tagList.sort();
 
-        quotes.quotes = quoteList;
-        authors.authors = authorList;
+        suppliers.suppliers = supplierList;
+        supplierdetails.supplierdetails = supplierDetailsList;
         tags.tags = tagList;
       }
 

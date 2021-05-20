@@ -6,15 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vuejs-paginate/2.1.0/index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+
 
     <style>
       * {
@@ -23,14 +27,16 @@
       body {
         padding-bottom: 128px;
       }
-  
+	  .fixed-top {
+	    top: -40px;
+	    transform: translateY(40px);
+	    transition: transform .10s;
+	  }
       #header {
         margin: 16px 0px 16px 0px;
       }
       #search {
 	    position: sticky;
-        padding: 22px 16px 22px 16px;
-		z-index: 100;
       }
       .supplier {
         margin-bottom: 16px;
@@ -86,6 +92,11 @@
       #reset-filter:hover {
         color: #4477AA;
       }
+	  
+	  .fa_custom {
+		color: 
+		#4FCE5D
+	  }
     </style>
   </head>
 
@@ -93,16 +104,44 @@
    
     <div id="app">
     </div>
-      
     <div id="content" class="container">
-      <div id="header" class="row">
-        <input
-          id="search"
-          v-on:input="filterSuppliers"
-          type="search"
-          placeholder="Search Resource(s) with Name"
-          class="form-control bg-none border-1">
-      </div>
+	  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+	    <a class="navbar-brand" href="index.html">Covid Volunteers</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+		
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ml-auto">
+	        <li>
+              <a class="nav-item nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+	        </li
+			<li>
+			  <a class="nav-item nav-link" href="add_resource.html">Add Verified Resource </a>
+			</li>
+	        <li class="nav-item">
+              <a class="nav-item nav-link" href="https://chat.whatsapp.com/GGD4XQMfH2H0Y32F8Pu2zv" target="_blank">Join Whatsapp Group <i class="fab fa-whatsapp fa_custom"></i></a>
+	        </li>
+          </div>
+        </div>
+      </nav>
+	  
+	  <nav id="navbar_top" class="navbar navbar-expand-lg navbar-light bg-info justify-content-start">
+	    <div id="header" class="input-group">
+         <input
+           id="search"
+           v-on:input="filterSuppliers"
+           type="search"
+           placeholder="Search Resource(s) with Name"
+           class="form-control bg-none border-1">
+		   <span class="input-group-append">
+             <button class="btn btn-outline-secondary border border-left-0" type="button">
+               <i class="fa fa-search"></i>
+             </button>
+           </span>
+        </div>
+	  </nav>
+	  
       <div>
         <div id="reset-filter" v-on:click="reset">
           Reset Filters
@@ -115,9 +154,8 @@
           </ul>
         </div>
       </div>
-
+	  
       <div class="row">
-        
         <div id="suppliers" class="col-lg-12">
           <div v-for="supplier in sortArrays(suppliers)" class="supplier">
             <div class="supplier-text">{{ supplier.name }}</div>
@@ -128,10 +166,10 @@
               <span class="address" v-if="supplier.address != ''"> {{ supplier.address }} </a></span>
             </div>
             <div>
-              <span class="contact" v-if="supplier.contact != ''">Contact No: <a :href="'tel:' + supplier.contact"> {{ supplier.contact }} </a></span>
+              <span class="contact" v-if="supplier.contact != ''"><i class="fas fa-mobile-alt"></i> Contact No: <a :href="'tel:' + supplier.contact"> {{ supplier.contact }} </a></span>
             </div>
 			<div>
-              <span class="contact" v-if="supplier.altcontact != ''">Alternate Contact No: <a :href="'tel:' + supplier.altcontact"> {{ supplier.altcontact }} </a></span>
+              <span class="contact" v-if="supplier.altcontact != ''"><i class="fas fa-mobile-alt"></i>Alternate Contact No: <a :href="'tel:' + supplier.altcontact"> {{ supplier.altcontact }} </a></span>
             </div>
 
             <div class="tag-container">
@@ -145,6 +183,10 @@
       </div>
 
     </div>
+	
+	<nav class="navbar fixed-bottom navbar-light bg-light">
+	  <a class="navbar-brand" href="#"><i class="fas fa-arrow-circle-up"></i></a>
+	</nav>
 
     <script>
       // URL to the JSON data of the Google Spreadsheet
@@ -194,13 +236,22 @@
               var suppliername = value.name.toLowerCase();
               var description = value.description.toLowerCase();
               var contact = value.contact.toLowerCase();
+			  var tags = value.tags;
 			  
               if (
                 (suppliername.search(query) >= 0) ||
                 (description.search(query) >= 0) ||
                 (contact.search(query) >= 0)) {
                 filtered.push(value);
-              }
+              } else {
+			     tags.forEach(function(tag) {
+			       var tag_ = tag.toLowerCase();
+			       if (
+				     (tag_.search(query) >= 0)) {
+				     filtered.push(value);
+				   }
+			     });
+			  }
             });
 			
             suppliers.suppliers = filtered;	
@@ -266,17 +317,6 @@
           }
         }
       });
-
-	  var wrap = $("#wrap");
-
-	  wrap.on("scroll", function(e) {
-		
-	    if (this.scrollTop > 147) {
-	      wrap.addClass("fix-search");
-	    } else {
-		  wrap.removeClass("fix-search");
-	    }  
-	  });
 	  
       function parseData(entries) {
         
@@ -314,6 +354,23 @@
 		
       }
 
+	  document.addEventListener("DOMContentLoaded", function(){
+		
+		window.addEventListener('scroll', function() {
+	       
+			if (window.scrollY > 200) {
+				document.getElementById('navbar_top').classList.add('fixed-top');
+				// add padding top to show content behind navbar
+				navbar_height = document.querySelector('.navbar').offsetHeight;
+				document.body.style.paddingTop = navbar_height + 'px';
+			} else {
+			 	document.getElementById('navbar_top').classList.remove('fixed-top');
+				 // remove padding top from body
+				document.body.style.paddingTop = '0';
+			} 
+		});
+	  }); 
+	// DOMContentLoaded  end
     </script>
 
   </body>

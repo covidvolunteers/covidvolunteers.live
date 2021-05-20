@@ -12,7 +12,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vuejs-paginate/2.1.0/index.js"></script>
 
     <style>
       * {
@@ -21,11 +23,14 @@
       body {
         padding-bottom: 128px;
       }
+  
       #header {
         margin: 16px 0px 16px 0px;
       }
       #search {
+	    position: sticky;
         padding: 22px 16px 22px 16px;
+		z-index: 100;
       }
       .supplier {
         margin-bottom: 16px;
@@ -43,15 +48,19 @@
         font-weight: bold;
         color: #676767;
       }
+	  .address {
+        font-size: 0.9em;
+        color: #676767;
+      }
       .tag-container {
         text-align: right;
       }
       .tag {
-        border-radius: 12px;
+        border-radius: 8px;
         background-color: #17A2B8;
         color: #FFFFFF;
-        padding: 5px 10px;
-        margin-left: 5px;
+        padding: 2px 5px;
+        margin-left: 2px;
         font-size: 0.8em;
       }
 
@@ -81,12 +90,11 @@
   </head>
 
   <body>
-
+   
     <div id="app">
     </div>
       
     <div id="content" class="container">
-
       <div id="header" class="row">
         <input
           id="search"
@@ -111,14 +119,21 @@
       <div class="row">
         
         <div id="suppliers" class="col-lg-12">
-          <div v-for="supplier in suppliers" class="supplier">
+          <div v-for="supplier in sortArrays(suppliers)" class="supplier">
             <div class="supplier-text">{{ supplier.name }}</div>
             <div>
               <span class="description">{{ supplier.description}}</span>
             </div>
+			<div>
+              <span class="address" v-if="supplier.address != ''"> {{ supplier.address }} </a></span>
+            </div>
             <div>
               <span class="contact" v-if="supplier.contact != ''">Contact No: <a :href="'tel:' + supplier.contact"> {{ supplier.contact }} </a></span>
             </div>
+			<div>
+              <span class="contact" v-if="supplier.altcontact != ''">Alternate Contact No: <a :href="'tel:' + supplier.altcontact"> {{ supplier.altcontact }} </a></span>
+            </div>
+
             <div class="tag-container">
               <span v-for="tag in supplier.tags" class="tag">
                 {{ tag }}
@@ -173,13 +188,13 @@
             
             var filtered = [];
             query = query.toLowerCase();
-            console.log(query);
 
             // Search in supplier name, description and contact
             supplierList.forEach(function(value) {
               var suppliername = value.name.toLowerCase();
               var description = value.description.toLowerCase();
               var contact = value.contact.toLowerCase();
+			  
               if (
                 (suppliername.search(query) >= 0) ||
                 (description.search(query) >= 0) ||
@@ -187,7 +202,8 @@
                 filtered.push(value);
               }
             });
-            suppliers.suppliers = filtered;
+			
+            suppliers.suppliers = filtered;	
           }
         }
       });
@@ -196,7 +212,12 @@
         el: '#suppliers',
         data: {
           suppliers: supplierList
-        }
+        },
+		methods: {
+			sortArrays(suppliers) {
+				return _.orderBy(suppliers, 'name', 'asc');
+			}
+		}
       });
 
       var supplierdetails = new Vue({
@@ -246,6 +267,17 @@
         }
       });
 
+	  var wrap = $("#wrap");
+
+	  wrap.on("scroll", function(e) {
+		
+	    if (this.scrollTop > 147) {
+	      wrap.addClass("fix-search");
+	    } else {
+		  wrap.removeClass("fix-search");
+	    }  
+	  });
+	  
       function parseData(entries) {
         
         var supplierDetailSet = new Set();
@@ -256,12 +288,13 @@
             "name": value.gsx$suppliername.$t,
             "description": value.gsx$shortdescription.$t,
             "contact": value.gsx$mobilenumber.$t,
+			"altcontact": value.gsx$alternatenumber.$t,
+			"address": value.gsx$addressofsupplier.$t,
             "tags": value.gsx$resource.$t.split(", ")
           };
           supplierDetailSet.add(entry.description);
 
           entry.tags.forEach(function(t) {
-		    console.log(t)
             tagSet.add(t);
           });
 
@@ -278,6 +311,7 @@
         suppliers.suppliers = supplierList;
         supplierdetails.supplierdetails = supplierDetailsList;
         tags.tags = tagList;
+		
       }
 
     </script>

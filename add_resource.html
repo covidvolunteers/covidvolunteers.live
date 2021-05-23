@@ -1,201 +1,211 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Covid Volunteers - Add Verified Resource</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+	<title>Covid Volunteers - Add Verified Resource</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK&display=swap" rel="stylesheet"> 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vuejs-paginate/2.1.0/index.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-9X8VWPMXWW"></script>
 	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
 
-	  gtag('config', 'G-9X8VWPMXWW');
+		gtag('config', 'G-9X8VWPMXWW');
 	</script>
 
-    <style>
-      * {
-        font-family: 'Noto Sans HK', sans-serif;
-      }
+	<style>
+		* {
+			font-family: 'Noto Sans HK', sans-serif;
+		}
 	  
-      body {
-        padding-bottom: 128px;
-      }
+		body {
+			padding-bottom: 128px;
+		}
 	  
-	  .fixed-top {
-	    top: -40px;
-	    transform: translateY(40px);
-	    transition: transform .10s;
-	  }
+		.fixed-top {
+			top: -40px;
+			transform: translateY(40px);
+			transition: transform .10s;
+		}
 	  
-      #header {
-        margin: 16px 0px 16px 0px;
-      }
+		#header {
+			margin: 16px 0px 16px 0px;
+		}
 	  
-      #search {
-	    position: sticky;
-      }
+		#search {
+			position: sticky;
+		}
 	  
-      .supplier {
-        margin-bottom: 16px;
-        padding: 10px 10px 24px 10px;
-        border-bottom: 1px dotted #CECECE;
-      }
-      .supplier-text {
-        font-size: 1.2em;
-      }
-      .description {
-        font-size: 0.8em;
-        color: #676767;
-      }
-      .contact {
-        font-weight: bold;
-        color: #676767;
-      }
-	  .address {
-        font-size: 0.9em;
-        color: #676767;
-      }
-      .tag-container {
-        text-align: right;
-      }
-      .tag {
-        border-radius: 8px;
-        background-color: #17A2B8;
-        color: #FFFFFF;
-        padding: 2px 5px;
-        margin-left: 2px;
-        font-size: 0.8em;
-      }
-
-      #sidebar {
-        padding: 12px;
-      }
-
-      .menu-item {
-        cursor: pointer;
-        border-radius: 12px;
-        background-color: #17A2B8;
-        color: #FFFFFF;
-        padding: 2px 5px 2px 5px;
-        margin: 5px 5px 5px 5px;
-        font-size: 0.8em;
-      }
-      .menu-item:hover {
-        color: #4477AA;
-      }
-      #reset-filter {
-        cursor: pointer;
-      }
-      #reset-filter:hover {
-        color: #4477AA;
-      }
-	  
-	  .fa_custom {
-		color: 
-		#4FCE5D
-	  }
-	  
-	  .resp-container {
-		position: relative;
-		overflow: hidden;
-		padding-top: 56.25%;
-	  }
-
-	  .fa-whatsapp  {
-        color:#fff;
-        background:
-        linear-gradient(#25d366,#25d366) 14% 84%/16% 16% no-repeat,
-        radial-gradient(#25d366 60%,transparent 0);
-      }
-    </style>
-  </head>
-
-  <body>
-   
-    <div id="app">
-    </div>
-    <div id="content" class="container">
-	  <nav class="navbar navbar-expand-lg navbar-light bg-light nav-right" >
-	    <a class="navbar-brand" href="index.html">Covid Volunteers</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+		.supplier {
+			margin-bottom: 16px;
+			padding: 10px 10px 24px 10px;
+			border-bottom: 1px dotted #CECECE;
+		}
 		
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav ml-auto">
-	        <li>
-              <a class="nav-item nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
-	        </li
-			<li>
-			  <a class="nav-item nav-link" href="#">Add Verified Resource </a>
-			</li>
-	        <li class="nav-item">
-              <a class="nav-item nav-link" href="https://chat.whatsapp.com/GGD4XQMfH2H0Y32F8Pu2zv" target="_blank">Join Whatsapp Group <i class="fab fa-whatsapp fa_custom"></i></a>
-	        </li>
-		    <li class="nav-item dropdown dropleft">
-		   	  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Useful Links</a>
-			  <div class="dropdown-menu">
-			    <a class="dropdown-item" href="https://cowinmap.com/?city=madurai" target="_blank">Cowin Hospital Map</a>
-			    <a class="dropdown-item" href="https://tncovidbeds.tnega.org/" target="_blank">TN Covid Beds</a>
-				<a class="dropdown-item" href="https://covidtnadu.com/" target="_blank">TN Covid Info</a>
-				<a class="dropdown-item" href="https://stopcorona.tn.gov.in/beds.php" target="_blank">TN Bed Status</a>
-			    <a class="dropdown-item" href="https://ucc.uhcitp.in/publicbedrequest" target="_blank">TN Bed Request</a>
-			    <div class="dropdown-divider"></div>
-			    <a class="dropdown-item" href="https://covid19-twitter.in/" target="_blank">Covid Twitter Search</a>
-				<a class="dropdown-item" href="https://twitter.com/104_GoTN/status/1389192068963045379" target="_blank">104 GoTN Twitter</a>
-			  </div>
-		    </li>
-          </div>
-        </div>
-      </nav>
+		.supplier-text {
+			font-size: 1.2em;
+		}	
+		
+		.description {
+			font-size: 0.8em;
+			color: #676767;
+		}
+
+		.contact {
+			font-weight: bold;
+			color: #676767;
+		}
+
+		.address {
+			font-size: 0.9em;
+			color: #676767;
+		}
+		
+		.tag-container {
+			text-align: right;
+		}
+
+		.tag {
+			border-radius: 8px;
+			background-color: #17A2B8;
+			color: #FFFFFF;
+			padding: 2px 5px;
+			margin-left: 2px;
+			font-size: 0.8em;
+		}
+
+		#sidebar {
+			padding: 12px;
+		}
+
+		.menu-item {
+			cursor: pointer;
+			border-radius: 12px;
+			background-color: #17A2B8;
+			color: #FFFFFF;
+			padding: 2px 5px 2px 5px;
+			margin: 5px 5px 5px 5px;
+			font-size: 0.8em;
+		}
+		
+		.menu-item:hover {
+			color: #4477AA;
+		}
+
+		#reset-filter {
+			cursor: pointer;
+		}
+		
+		#reset-filter:hover {
+			color: #4477AA;
+		}
+	  
+		.fa_custom {
+			color: 
+			#4FCE5D
+		}
+	  
+		.resp-container {
+			position: relative;
+			overflow: hidden;
+			padding-top: 56.25%;
+		}
+
+		.fa-whatsapp  {
+			color:#fff;
+			background:
+			linear-gradient(#25d366,#25d366) 14% 84%/16% 16% no-repeat,
+			radial-gradient(#25d366 60%,transparent 0);
+		}
+	</style>
+	</head>
+
+	<body>
+   
+	<div id="app">
+	</div>
+    
+	<div id="content" class="container">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light nav-right" >
+			<a class="navbar-brand" href="index.html">Covid Volunteers</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav ml-auto">
+					<li>
+						<a class="nav-item nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+					</li>
+					<li>
+						<a class="nav-item nav-link" href="#">Add Verified Resource </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link" href="https://chat.whatsapp.com/GGD4XQMfH2H0Y32F8Pu2zv" target="_blank">Join Whatsapp Group <i class="fab fa-whatsapp fa_custom"></i></a>
+					</li>
+					<li class="nav-item dropdown dropleft">
+						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Useful Links</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="https://cowinmap.com/?city=madurai" target="_blank">Cowin Hospital Map</a>
+							<a class="dropdown-item" href="https://tncovidbeds.tnega.org/" target="_blank">TN Covid Beds</a>
+							<a class="dropdown-item" href="https://covidtnadu.com/" target="_blank">TN Covid Info</a>
+							<a class="dropdown-item" href="https://stopcorona.tn.gov.in/beds.php" target="_blank">TN Bed Status</a>
+							<a class="dropdown-item" href="https://ucc.uhcitp.in/publicbedrequest" target="_blank">TN Bed Request</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="https://covid19-twitter.in/" target="_blank">Covid Twitter Search</a>
+							<a class="dropdown-item" href="https://twitter.com/104_GoTN/status/1389192068963045379" target="_blank">104 GoTN Twitter</a>
+						</div>
+					</li>
+				</div>
+			</div>
+		</nav>
 		<div class="row">
 			<iframe class="resp-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSf0aYh0SJPNLoZl2jIbcAzyAGcxNfH-5ojFfEY0vq3iZkCr4g/viewform?embedded=true" width="100%" height="2000px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
 		</div>
 		
-      </div>
+	</div>
 
-	  <nav class="navbar fixed-bottom navbar-light bg-light">
-		  <a class="navbar-brand" href="https://chat.whatsapp.com/GGD4XQMfH2H0Y32F8Pu2zv" target="_blank" style="font-size:15px"> Let's come together and help those in need!</a>
-		  <a class="navbar-brand" href="#"><i class="fas fa-arrow-circle-up">Goto Top</i></a>
-      </nav>
+	<nav class="navbar fixed-bottom navbar-light bg-light">
+		<a class="navbar-brand" href="https://chat.whatsapp.com/GGD4XQMfH2H0Y32F8Pu2zv" target="_blank" style="font-size:15px"> Let's come together and help those in need!</a>
+		<a class="navbar-brand" href="#"><i class="fas fa-arrow-circle-up"> Goto Top</i></a>
+	</nav>
 
-    <script>
+	<script>
 
-	  document.addEventListener("DOMContentLoaded", function(){
+		document.addEventListener("DOMContentLoaded", function(){
 		
-		window.addEventListener('scroll', function() {
+			window.addEventListener('scroll', function() {
 	       
-			if (window.scrollY > 200) {
-				document.getElementById('navbar_top').classList.add('fixed-top');
-				// add padding top to show content behind navbar
-				navbar_height = document.querySelector('.navbar').offsetHeight;
-				document.body.style.paddingTop = navbar_height + 'px';
-			} else {
-			 	document.getElementById('navbar_top').classList.remove('fixed-top');
-				 // remove padding top from body
-				document.body.style.paddingTop = '0';
-			} 
-		});
-	  }); 
-	// DOMContentLoaded  end
+				if (window.scrollY > 200) {
+					document.getElementById('navbar_top').classList.add('fixed-top');
+					// add padding top to show content behind navbar
+					navbar_height = document.querySelector('.navbar').offsetHeight;
+					document.body.style.paddingTop = navbar_height + 'px';
+				} else {
+					document.getElementById('navbar_top').classList.remove('fixed-top');
+					// remove padding top from body
+					document.body.style.paddingTop = '0';
+				} 
+			});
+		}); 
+		// DOMContentLoaded  end
     </script>
 
-  </body>
+	</body>
 </html>

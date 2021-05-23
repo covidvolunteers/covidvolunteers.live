@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CovidMadurai</title>
+    <title>Covid Volunteers - Verified Leads/Resources</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <!--script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vuejs-paginate/2.1.0/index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-9X8VWPMXWW"></script>
+	<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
 
+	  gtag('config', 'G-9X8VWPMXWW');
+	</script>
+	
     <style>
       * {
         font-family: 'Noto Sans HK', sans-serif;
@@ -21,37 +38,53 @@
       body {
         padding-bottom: 128px;
       }
+	  .fixed-top {
+	    top: -40px;
+	    transform: translateY(40px);
+	    transition: transform .10s;
+	  }
       #header {
         margin: 16px 0px 16px 0px;
       }
       #search {
-        padding: 22px 16px 22px 16px;
+	    position: sticky;
       }
-      .quote {
+	  
+      .supplier {
         margin-bottom: 16px;
         padding: 10px 10px 24px 10px;
         border-bottom: 1px dotted #CECECE;
       }
-      .quote-text {
+	  
+      .supplier-text {
         font-size: 1.2em;
       }
-      .author {
+	  
+      .description {
         font-size: 0.8em;
         color: #676767;
       }
-      .source {
+	  
+      .contact {
         font-weight: bold;
         color: #676767;
       }
+	  
+	  .address {
+        font-size: 0.9em;
+        color: #676767;
+      }
+	  
       .tag-container {
         text-align: right;
       }
+	  
       .tag {
-        border-radius: 12px;
+        border-radius: 8px;
         background-color: #17A2B8;
         color: #FFFFFF;
-        padding: 5px 10px;
-        margin-left: 5px;
+        padding: 2px 5px;
+        margin-left: 2px;
         font-size: 0.8em;
       }
 
@@ -68,33 +101,104 @@
         margin: 5px 5px 5px 5px;
         font-size: 0.8em;
       }
+	  
       .menu-item:hover {
         color: #4477AA;
       }
+	  
       #reset-filter {
         cursor: pointer;
       }
+	  
       #reset-filter:hover {
         color: #4477AA;
       }
+	  
+	  .fa_custom {
+        background-color: #25D366;
+        color: #fff;
+        text-align: center;
+        padding: 9px;
+        border-radius: 7px;
+	  }
+	  
+	  .fa_custom:hover {
+	    background-color: darken(#25d366, 5%);
+	  }
+	  
+	  .fa-whatsapp  {
+        color:#fff;
+        background:
+        linear-gradient(#25d366,#25d366) 14% 84%/16% 16% no-repeat,
+        radial-gradient(#25d366 60%,transparent 0);
+      }
+	  
+	  .fab.fa-instagram {
+	    color: transparent;
+	    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+	    background: -webkit-radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+	    background-clip: text;
+	    -webkit-background-clip: text;
+	  }
+
     </style>
   </head>
 
   <body>
-
+   
     <div id="app">
     </div>
-      
     <div id="content" class="container">
-
-      <div id="header" class="row">
-        <input
-          id="search"
-          v-on:input="filterQuotes"
-          type="search"
-          placeholder="Search Resource(s) with Name"
-          class="form-control bg-none border-1">
-      </div>
+	  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+	    <a class="navbar-brand" href="index.html">Covid Volunteers</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+		
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ml-auto">
+	        <li>
+              <a class="nav-item nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+	        </li
+			<li>
+			  <a class="nav-item nav-link" href="add_resource.html">Add Verified Resource </a>
+			</li>
+	        <li class="nav-item">
+              <a class="nav-item nav-link" href="https://chat.whatsapp.com/GGD4XQMfH2H0Y32F8Pu2zv" target="_blank">Join Whatsapp Group <i class="fab fa-whatsapp"></i></a>
+	        </li>
+		    <li class="nav-item dropdown dropleft">
+		   	  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Useful Links</a>
+			  <div class="dropdown-menu">
+			    <a class="dropdown-item" href="https://cowinmap.com/?city=madurai" target="_blank">Cowin Hospital Map</a>
+			    <a class="dropdown-item" href="https://tncovidbeds.tnega.org/" target="_blank">TN Covid Beds</a>
+				<a class="dropdown-item" href="https://covidtnadu.com/" target="_blank">TN Covid Info</a>
+				<a class="dropdown-item" href="https://stopcorona.tn.gov.in/beds.php" target="_blank">TN Bed Status</a>
+			    <a class="dropdown-item" href="https://ucc.uhcitp.in/publicbedrequest" target="_blank">TN Bed Request</a>
+			    <div class="dropdown-divider"></div>
+			    <a class="dropdown-item" href="https://covid19-twitter.in/" target="_blank">Covid Twitter Search</a>
+				<a class="dropdown-item" href="https://twitter.com/104_GoTN/status/1389192068963045379" target="_blank">104 GoTN Twitter</a>
+			  </div>
+		    </li>
+          </div>
+        </div>
+      </nav>
+	  
+	  <nav id="navbar_top" class="navbar navbar-expand-lg navbar-light bg-info justify-content-start">
+	    <div id="header" class="input-group">
+         <input
+           id="search"
+           v-on:input="filterSuppliers"
+           type="search"
+           placeholder="Search Resource(s) with Name"
+           class="form-control bg-none border-1">
+		   <span class="input-group-append">
+             <button class="btn btn-outline-secondary border border-left-0" type="button">
+               <i class="fa fa-search"></i>
+             </button>
+           </span>
+        </div>
+	  </nav>
+	  
       <div>
         <div id="reset-filter" v-on:click="reset">
           Reset Filters
@@ -107,20 +211,49 @@
           </ul>
         </div>
       </div>
+  
 
       <div class="row">
-        
-        <div id="quotes" class="col-lg-12">
-          <div v-for="quote in quotes" class="quote">
-            <div class="quote-text">{{ quote.quote }}</div>
+        <div id="suppliers" class="col-lg-12">
+          <div v-for="supplier in sortArrays(suppliers)" class="supplier">
+            <div class="supplier-text">{{ supplier.name }} <a id="share" href="#" @click="shareinWhatsapp(supplier)"><i class="fab fa-whatsapp"></i></a></div>           
             <div>
-              <span class="author">{{ quote.author}}</span>
+              <span class="description">{{ supplier.description}}</span>
+            </div>
+			<div>
+              <span class="address" v-if="supplier.address != ''"> {{ supplier.address }} </a></span>
             </div>
             <div>
-              <span class="source" v-if="quote.source != ''">ContactNo: {{ quote.source }}</span>
+              <span class="contact" v-if="supplier.contact != ''"><i class="fas fa-mobile-alt " style="color:#17A2B8"></i> <a :href="'tel:' + '0' + supplier.contact" style="color:#17A2B8"> +91 {{ supplier.contact }} </a></span>
+            </div>
+			<div>
+              <span class="contact" v-if="supplier.altcontact != ''"><i class="fas fa-mobile-alt" style="color:#17A2B8"></i> <a :href="'tel:' + '0' + supplier.altcontact" style="color:#17A2B8"> +91 {{ supplier.altcontact }} </a></span>
+            </div>
+			<div>
+              <span class="contact" v-if="supplier.landline != ''"><i class="fas fa-mobile-alt" style="color:#17A2B8"></i> <a :href="'tel:' + supplier.altcontact" style="color:#17A2B8"> {{ supplier.landline }} </a></span>
+            </div>
+			<div>
+              <span class="contact" v-if="supplier.website != ''"><i class="fas fa-globe" style="color:#17A2B8"></i> <a target="_blank" :href="supplier.website" style="color:#17A2B8"> {{ supplier.website }} </a></span>
+            </div>
+			<div>
+			  <span class="iconify" data-icon="fa-solid:hand-holding-usd" v-if="supplier.donate != ''" style="color:#17A2B8"></span>
+			  <b class="contact" v-if="supplier.donate != ''" style="color:#17A2B8">Donate: {{ supplier.donate }}</b>
+            </div>
+			<div>
+			  <p v-if="supplier.facebook != '' || supplier.twitter != '' || supplier.instagram != ''" style="color:#17A2B8"><b>Follow On:</b>
+              <a target="_blank" v-if="supplier.facebook != ''" :href="supplier.facebook">
+				<i class="fab fa-facebook fa-2x"></i>
+			  </a>
+              <a target="_blank" v-if="supplier.twitter != ''" :href="supplier.twitter">
+				<i class="fab fa-twitter fa-2x"></i>
+			  </a>
+              <a target="_blank" v-if="supplier.instagram != ''" :href="supplier.instagram">
+				<i class="fab fa-instagram fa-2x"></i>
+		      </a>
+			  </p>
             </div>
             <div class="tag-container">
-              <span v-for="tag in quote.tags" class="tag">
+              <span v-for="tag in supplier.tags" class="tag">
                 {{ tag }}
               </span>
             </div>
@@ -130,13 +263,18 @@
       </div>
 
     </div>
+	
+	<nav class="navbar fixed-bottom navbar-light bg-light">
+	  <a class="navbar-brand" href="https://chat.whatsapp.com/GGD4XQMfH2H0Y32F8Pu2zv" target="_blank" style="font-size:15px"> Let's come together and help those in need!</a>
+	  <a class="navbar-brand" href="#"><i class="fas fa-arrow-circle-up">Goto Top</i></a>
+	</nav>
 
     <script>
       // URL to the JSON data of the Google Spreadsheet
       var gsheet_url =  "https://spreadsheets.google.com/feeds/list/1ageTMu46SX5Zkq417sZG1izEZdFMUIlUY-TN32rGNA8/1/public/values?alt=json";
       // Global variables to hold the data from the spreadsheet
-      var quoteList = [];
-      var authorList = [];
+      var supplierList = [];
+      var supplierDetailsList = [];
       var tagList = [];
       
       // Load data when the page is ready
@@ -156,16 +294,17 @@
         }
       });
 
+	  
       // Search bar
       var search = new Vue({
         el: '#search',
         methods: {
-          filterQuotes: function(event) {
+          filterSuppliers: function(event) {
             var query = event.target.value;
 
             // Reset filter if query is empty string
             if (query.length == 0) {
-              quotes.quotes = quoteList;
+              suppliers.suppliers = supplierList;
             }
 
             // Do nothing if query is too short
@@ -173,47 +312,76 @@
             
             var filtered = [];
             query = query.toLowerCase();
-            console.log(query);
 
-            // Search in quote, author and source
-            quoteList.forEach(function(value) {
-              var quote = value.quote.toLowerCase();
-              var author = value.author.toLowerCase();
-              var source = value.source.toLowerCase();
+            // Search in supplier name, description and contact
+            supplierList.forEach(function(value) {
+              var suppliername = value.name.toLowerCase();
+              var description = value.description.toLowerCase();
+              var contact = value.contact.toLowerCase();
+			  var tags = value.tags;
+			  
               if (
-                (quote.search(query) >= 0) ||
-                (author.search(query) >= 0) ||
-                (source.search(query) >= 0)) {
+                (suppliername.search(query) >= 0) ||
+                (description.search(query) >= 0) ||
+                (contact.search(query) >= 0)) {
                 filtered.push(value);
-              }
+              } else {
+			     tags.forEach(function(tag) {
+			       var tag_ = tag.toLowerCase();
+			       if (
+				     (tag_.search(query) >= 0)) {
+				     filtered.push(value);
+				   }
+			     });
+			  }
             });
-            quotes.quotes = filtered;
+			
+            suppliers.suppliers = filtered;	
           }
         }
       });
 
-      var quotes = new Vue({
-        el: '#quotes',
+      var suppliers = new Vue({
+        el: '#suppliers',
         data: {
-          quotes: quoteList
-        }
+          suppliers: supplierList
+        },
+		methods: {
+			sortArrays: function(suppliers) {
+				return _.orderBy(suppliers, 'name', 'asc');
+			},
+			
+			shareinWhatsapp: function (supplier) {   
+			    var message='';
+				for (var key in supplier) {
+					if (key != 'tags' && supplier[key] != null && supplier[key] != '') {
+						message += supplier[key];
+						message += '%0a';
+					}
+				}
+				message += "Sourced from https://covidvolunteers.live%0a";
+				window.open("https://api.whatsapp.com/send?text=" + message, "_blank");    
+			}
+		}
+		
+		
       });
 
-      var authors = new Vue({
-        el: '#authors',
+      var supplierdetails = new Vue({
+        el: '#supplierdetails',
         data: {
-          authors: authorList
+          supplierdetails: supplierDetailsList
         },
         methods: {
-          selectAuthor: function(event) {
+          selectSupplier: function(event) {
             var selected = [];
-            var author = event.target.getAttribute('data');
-            quoteList.forEach(function(value) {
-              if (value.author == author) {
+            var supplier = event.target.getAttribute('data');
+            supplierList.forEach(function(value) {
+              if (value.description == description) {
                 selected.push(value);
               }
             });
-            quotes.quotes = selected;
+            suppliers.suppliers = selected;
           }
         }
       });
@@ -222,7 +390,7 @@
         el: '#reset-filter',
         methods: {
           reset: function(event) {
-            quotes.quotes = quoteList;
+            suppliers.suppliers = supplierList;
           }
         }
       });
@@ -236,47 +404,75 @@
           selectTag: function(event) {
             var selected = [];
             var tag = event.target.getAttribute('data');
-            quoteList.forEach(function(value) {
+            supplierList.forEach(function(value) {
               if (value.tags.includes(tag)) {
                 selected.push(value);
               }
             });
-            quotes.quotes = selected;
+            suppliers.suppliers = selected;
           }
         }
       });
-
+	  
       function parseData(entries) {
         
-        var authorSet = new Set();
+        var supplierDetailSet = new Set();
         var tagSet = new Set();
 
         entries.forEach(function(value) {
           var entry = {
-            "quote": value.gsx$suppliername.$t,
-            "author": value.gsx$shortdescription.$t,
-            "source": value.gsx$mobilenumber.$t,
-            "tags": value.gsx$resource.$t.split(",")
+            "name": value.gsx$suppliername.$t,
+            "description": value.gsx$shortdescription.$t,
+            "contact": value.gsx$mobilenumber.$t,
+			"altcontact": value.gsx$alternatenumber.$t,
+			"landline": value.gsx$landlinenumber.$t,
+			"address": value.gsx$addressofsupplier.$t,
+			"website": value.gsx$website.$t,
+			"facebook": value.gsx$facebook.$t,
+			"instagram": value.gsx$instagram.$t,
+			"twitter": value.gsx$twitter.$t,
+			"donate": value.gsx$donateifngo.$t,
+            "tags": value.gsx$resource.$t.split(", ")
           };
-          authorSet.add(entry.author);
+          supplierDetailSet.add(entry.description);
 
           entry.tags.forEach(function(t) {
             tagSet.add(t);
           });
 
-          quoteList.push(entry);
+          supplierList.push(entry);
+		  
         });
-        authorList = Array.from(authorSet);
-        authorList.sort();
+		
+        supplierDetailsList = Array.from(supplierDetailSet);
+        supplierDetailsList.sort();
 
         tagList = Array.from(tagSet);
         tagList.sort();
 
-        quotes.quotes = quoteList;
-        authors.authors = authorList;
+        suppliers.suppliers = supplierList;
+        supplierdetails.supplierdetails = supplierDetailsList;
         tags.tags = tagList;
+		
       }
 
+	  document.addEventListener("DOMContentLoaded", function(){
+		
+		window.addEventListener('scroll', function() {
+	       
+			if (window.scrollY > 200) {
+				document.getElementById('navbar_top').classList.add('fixed-top');
+				// add padding top to show content behind navbar
+				navbar_height = document.querySelector('.navbar').offsetHeight;
+				document.body.style.paddingTop = navbar_height + 'px';
+			} else {
+			 	document.getElementById('navbar_top').classList.remove('fixed-top');
+				 // remove padding top from body
+				document.body.style.paddingTop = '0';
+			} 
+		});
+	  }); 
+	// DOMContentLoaded  end
     </script>
 
   </body>

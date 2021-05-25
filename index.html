@@ -387,6 +387,7 @@
 			
 				shareinWhatsapp: function (supplier) {   
 					var message='';
+					message += "Sourced from https://covidvolunteers.live%0a";
 					for (var key in supplier) {
 						if (key != 'tags' && supplier[key] != null && supplier[key] != '') {
 							message += supplier[key];
@@ -394,7 +395,6 @@
 						}
 					}
 					
-					message += "Sourced from https://covidvolunteers.live%0a";
 					window.open("https://api.whatsapp.com/send?text=" + message, "_blank");    
 				}
 			}

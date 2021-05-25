@@ -22,9 +22,9 @@ jobs:
     - name: Deploy static site to S3 bucket
       run: |
         if ${{ github.ref == 'refs/heads/main' }}; then
-          aws s3 sync ./ s3://${{ secrets.PROD_BUCKET_NAME }} --exclude ".*" --exclude "README.md" --size-only --delete
+          aws s3 sync ./ s3://${{ secrets.PROD_BUCKET_NAME }} --exclude ".*" --exclude "README.md" --delete
           aws cloudfront create-invalidation --distribution-id ${{ secrets.PROD_CDN_ID }} \
           --paths "/*"
         else
-          aws s3 sync ./ s3://${{ secrets.DEV_BUCKET_NAME }} --exclude ".*" --exclude "README.md" --size-only --delete
+          aws s3 sync ./ s3://${{ secrets.DEV_BUCKET_NAME }} --exclude ".*" --exclude "README.md" --delete
         fi
